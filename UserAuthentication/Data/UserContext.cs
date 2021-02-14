@@ -22,7 +22,6 @@ namespace UserAuthentication.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=UserDB;Trusted_Connection=True;");
             string connectionString = _configuration.GetConnectionString("UserDatabase");
             optionsBuilder.UseSqlServer(connectionString);
         }

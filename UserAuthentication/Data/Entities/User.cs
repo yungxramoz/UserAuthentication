@@ -16,8 +16,6 @@ namespace UserAuthentication.Data.Entities
         [StringLength(50)]
         public string Lastname { get; set; }
 
-        public bool IsAdministrator { get; set; }
-
         [StringLength(64)]
         public byte[] PasswordHash { get; set; }
 

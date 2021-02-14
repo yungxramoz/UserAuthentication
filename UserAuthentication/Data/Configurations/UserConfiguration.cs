@@ -9,18 +9,6 @@ namespace UserAuthentication.Data
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("User");
-
-            //builder.HasData(
-            //    new User
-            //    {
-            //        PersonId = 1,
-            //        Username = "admin",
-            //        Password = "admin",
-            //        Firstname = "Admin",
-            //        Lastname = "Admin",
-            //        IsAdministrator = true,
-            //    }
-            //);
         }
     }
 }
