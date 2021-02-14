@@ -10,9 +10,6 @@ namespace UserAuthentication.Data.Entities
         [StringLength(50)]
         public string Username { get; set; }
 
-        [StringLength(100)]
-        public string Password { get; set; }
-
         [StringLength(50)]
         public string Firstname { get; set; }
 
@@ -21,7 +18,10 @@ namespace UserAuthentication.Data.Entities
 
         public bool IsAdministrator { get; set; }
 
+        [StringLength(64)]
         public byte[] PasswordHash { get; set; }
+
+        [StringLength(128)]
         public byte[] PasswordSalt { get; set; }
 
     }
