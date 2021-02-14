@@ -79,12 +79,12 @@ namespace UserAuthentication.Services
 
         public User Get(int id)
         {
-            return _context.Users.FirstOrDefault(u => u.PersonId == id);
+            return _context.Users.FirstOrDefault(u => u.UserId == id);
         }
 
         public void Update(User user, string password)
         {
-            User updateUser = _context.Users.Find(user.PersonId);
+            User updateUser = _context.Users.Find(user.UserId);
 
             if (updateUser == null)
             {

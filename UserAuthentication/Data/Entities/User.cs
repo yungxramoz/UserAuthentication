@@ -5,7 +5,7 @@ namespace UserAuthentication.Data.Entities
     public class User
     {
         [Key]
-        public int PersonId { get; set; }
+        public int UserId { get; set; }
 
         [StringLength(50)]
         public string Username { get; set; }

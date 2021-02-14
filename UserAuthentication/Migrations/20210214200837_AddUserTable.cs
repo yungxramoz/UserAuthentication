@@ -11,7 +11,7 @@ namespace UserAuthentication.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    PersonId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Firstname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
@@ -21,7 +21,7 @@ namespace UserAuthentication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.PersonId);
+                    table.PrimaryKey("PK_User", x => x.UserId);
                 });
         }
 

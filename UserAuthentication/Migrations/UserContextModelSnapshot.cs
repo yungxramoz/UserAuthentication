@@ -21,7 +21,7 @@ namespace UserAuthentication.Migrations
 
             modelBuilder.Entity("UserAuthentication.Data.Entities.User", b =>
                 {
-                    b.Property<int>("PersonId")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -46,7 +46,7 @@ namespace UserAuthentication.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("PersonId");
+                    b.HasKey("UserId");
 
                     b.ToTable("User");
                 });
