@@ -111,11 +111,11 @@ namespace UserAuthentication.Services
                 updateUser.Firstname = user.Lastname;
             }
 
-            if (!string.IsNullOrWhiteSpace(user.Password))
+            if (!string.IsNullOrWhiteSpace(password))
             {
                 byte[] passwordHash;
                 byte[] passwordSalt;
-                PasswordHelper.CreatePasswordHash(user.Password, out passwordHash, out passwordSalt);
+                PasswordHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
                 updateUser.PasswordHash = passwordHash;
                 updateUser.PasswordSalt = passwordSalt;
