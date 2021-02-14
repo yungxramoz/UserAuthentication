@@ -15,6 +15,7 @@ using UserAuthentication.Services;
 
 namespace UserAuthentication.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -49,6 +50,7 @@ namespace UserAuthentication.Controllers
         }
 
         // POST api/<UserController>/authentivate
+        [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] AuthenticateModel model)
         {
@@ -66,7 +68,7 @@ namespace UserAuthentication.Controllers
                 Subject = new ClaimsIdentity(new Claim[] {
                     new Claim(ClaimTypes.Name, user.UserId.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(5), // TODO Update time
+                Expires = DateTime.UtcNow.AddDays(7), // TODO Update time
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -84,6 +86,7 @@ namespace UserAuthentication.Controllers
         }
 
         // POST api/<UserController>/register
+        [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegistrationModel model)
         {
