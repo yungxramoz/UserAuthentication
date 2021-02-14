@@ -10,7 +10,7 @@ using UserAuthentication.Data;
 namespace UserAuthentication.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20210214200837_AddUserTable")]
+    [Migration("20210214202259_AddUserTable")]
     partial class AddUserTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
