@@ -1,5 +1,12 @@
 # UserAuthentication
-.NET 5, User Authentication Web API with SQL Server
+.NET 5, User Authentication Web API
+
+## Technologie
+- .NET 5
+- EF Core 5.0.3
+- AutoMapper 10.1.1
+- JWT Bearer 5.0.3
+- SQL Server
 
 ## Projekt setup
 
