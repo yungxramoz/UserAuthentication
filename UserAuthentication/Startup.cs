@@ -1,20 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UserAuthentication.Data;
-using AutoMapper;
 using UserAuthentication.Helpers;
 using Microsoft.EntityFrameworkCore;
+using UserAuthentication.Services;
 
 namespace UserAuthentication
 {
@@ -39,6 +33,10 @@ namespace UserAuthentication
             var appSettingsSection = _configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
+            //DI services
+            services.AddScoped<IUserService, UserService>();
+
+            //Swagger stuff
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserAuthentication", Version = "v1" });
@@ -57,7 +55,8 @@ namespace UserAuthentication
 
             userContext.Database.Migrate();
 
-            app.UseHttpsRedirection();
+            //TODO handle HTTPS
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
