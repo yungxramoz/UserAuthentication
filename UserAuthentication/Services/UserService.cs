@@ -28,7 +28,10 @@ namespace UserAuthentication.Services
                 return null;
             }
 
-            //TODO Paswor check
+            if (!PasswordHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            {
+                return null;
+            }
 
             return user;
         }
@@ -45,7 +48,12 @@ namespace UserAuthentication.Services
                 throw new InfoException("Username already taken");
             }
 
-            //TODO Password set
+            byte[] passwordHash;
+            byte[] passwordSalt;
+            PasswordHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
 
             _context.Users.Add(user);
             _context.SaveChanges();
@@ -103,7 +111,15 @@ namespace UserAuthentication.Services
                 updateUser.Firstname = user.Lastname;
             }
 
-            //TODO Passsword update
+            if (!string.IsNullOrWhiteSpace(user.Password))
+            {
+                byte[] passwordHash;
+                byte[] passwordSalt;
+                PasswordHelper.CreatePasswordHash(user.Password, out passwordHash, out passwordSalt);
+
+                updateUser.PasswordHash = passwordHash;
+                updateUser.PasswordSalt = passwordSalt;
+            }
 
             _context.Users.Update(updateUser);
             _context.SaveChanges();
