@@ -64,8 +64,7 @@ namespace UserAuthentication
                         return Task.CompletedTask;
                     }
                 };
-                //TODO handle HTTPS
-                x.RequireHttpsMetadata = false;
+                x.RequireHttpsMetadata = true;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -98,8 +97,7 @@ namespace UserAuthentication
 
             userContext.Database.Migrate();
 
-            //TODO handle HTTPS
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
