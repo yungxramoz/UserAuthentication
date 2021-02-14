@@ -2,7 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using UserAuthentication.Data.Entities;
 using UserAuthentication.Helpers;
 using UserAuthentication.Models;
@@ -43,9 +48,44 @@ namespace UserAuthentication.Controllers
             return Ok(model);
         }
 
-        // POST api/<UserController>
-        [HttpPost]
-        public IActionResult Post([FromBody] RegistrationModel model)
+        // POST api/<UserController>/authentivate
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody] AuthenticateModel model)
+        {
+            User user = _userService.Authenticate(model.Username, model.Password);
+
+            if (user == null)
+            {
+                return BadRequest("Username or password is incorrect");
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[] {
+                    new Claim(ClaimTypes.Name, user.UserId.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(5), // TODO Update time
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+
+            return Ok(new
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Firstname = user.Firstname,
+                Lastname = user.Lastname,
+                Token = tokenString
+            });
+        }
+
+        // POST api/<UserController>/register
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] RegistrationModel model)
         {
             var user = _mapper.Map<User>(model);
 
@@ -65,7 +105,7 @@ namespace UserAuthentication.Controllers
         public IActionResult Put(int id, [FromBody] UpdateModel model)
         {
             var user = _mapper.Map<User>(model);
-            user.PersonId = id;
+            user.UserId = id;
 
             try
             {
