@@ -3,15 +3,6 @@
 
 ## Projekt setup
 
-Kann länger dauern, da hier das halbe Internet heruntergeladen wird (node modules).
-Es ist wichtig das zuerst ins Project Directory gewechselt wird, also ins Verzeichnis ab16-4.
-
-```
-yarn install
-```
-
-### Programm als Dev Build ausführen
-
 In der Datei "appsettings.Development.json" den ConnectionString UserDatabase den Server anpassen, dass auf die korrekte Datenbank verbunden wird.
 
 ```json
