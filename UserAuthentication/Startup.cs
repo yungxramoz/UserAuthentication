@@ -14,6 +14,8 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using UserAuthentication.Services;
 using UserAuthentication.Data.Entities;
+using System.Reflection;
+using System.IO;
 
 namespace UserAuthentication
 {
@@ -81,7 +83,26 @@ namespace UserAuthentication
             //Swagger stuff
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserAuthentication", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "UserAuthentication", 
+                    Version = "v1",
+                    Description = "A user authentication API that provides a JWT Bearer Token on successful authentication",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Sandro Gerber",
+                        Email = "this-is@not-my.email"
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT",
+                        Url = new Uri("https://opensource.org/licenses/MIT")
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -92,7 +113,11 @@ namespace UserAuthentication
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UserAuthentication v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "UserAuthentication v1");
+                });
+
             }
 
             userContext.Database.Migrate();

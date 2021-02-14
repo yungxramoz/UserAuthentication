@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +17,7 @@ using UserAuthentication.Services;
 namespace UserAuthentication.Controllers
 {
     [Authorize]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -31,8 +33,13 @@ namespace UserAuthentication.Controllers
             _appSettings = appSettings.Value;
         }
 
-        // GET: api/<UserController>
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns>Get all users</returns>
+        /// <response code="201">Returns all the users</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult Get()
         {
             var users = _userService.Get();
@@ -40,8 +47,14 @@ namespace UserAuthentication.Controllers
             return Ok(model);
         }
 
-        // GET api/<UserController>/5
+        /// <summary>
+        /// Get a specific user
+        /// </summary>
+        /// <param name="id">The id of the user</param>
+        /// <returns>The requested user</returns>
+        /// <response code="201">Returns the specific user</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult Get(int id)
         {
             var user = _userService.Get(id);
@@ -49,9 +62,17 @@ namespace UserAuthentication.Controllers
             return Ok(model);
         }
 
-        // POST api/<UserController>/authentivate
+        /// <summary>
+        /// Authenticate a user with the credentials
+        /// </summary>
+        /// <param name="model">The credentials of a user</param>
+        /// <returns>User with token on successful authenticate</returns>
+        /// <response code="201">Successfully authenticated and returns token</response>
+        /// <response code="400">If credentials were not valid</response>
         [AllowAnonymous]
         [HttpPost("authenticate")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Authenticate([FromBody] AuthenticateModel model)
         {
             User user = _userService.Authenticate(model.Username, model.Password);
@@ -85,9 +106,17 @@ namespace UserAuthentication.Controllers
             });
         }
 
-        // POST api/<UserController>/register
+        /// <summary>
+        /// Create a new account for a new user
+        /// </summary>
+        /// <param name="model">All required data for a new user</param>
+        /// <returns>Status if user has been successfully created</returns>
+        /// <response code="201">Successfully registered the new user</response>
+        /// <response code="400">If registration info were not valid</response>
         [AllowAnonymous]
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Register([FromBody] RegistrationModel model)
         {
             var user = _mapper.Map<User>(model);
@@ -103,8 +132,17 @@ namespace UserAuthentication.Controllers
             }
         }
 
-        // PUT api/<UserController>/5
+        /// <summary>
+        /// Update a specific User
+        /// </summary>
+        /// <param name="id">Id of the user to update</param>
+        /// <param name="model">Updated data of the user</param>
+        /// <returns>Status if user has been successfully updated</returns>
+        /// <response code="201">Successfully updated the user</response>
+        /// <response code="400">If user does not exist</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Put(int id, [FromBody] UpdateModel model)
         {
             var user = _mapper.Map<User>(model);
@@ -121,8 +159,14 @@ namespace UserAuthentication.Controllers
             }
         }
 
-        // DELETE api/<UserController>/5
+        /// <summary>
+        /// Delete a sepcific user
+        /// </summary>
+        /// <param name="id">Id of the user to delete</param>
+        /// <returns>Status if user has been successfully deleted</returns>
+        /// <response code="201">Successfully deleted the user</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult Delete(int id)
         {
             _userService.Delete(id);
