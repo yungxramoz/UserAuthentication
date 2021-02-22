@@ -108,7 +108,7 @@ namespace UserAuthentication.Services
 
             if (!string.IsNullOrWhiteSpace(user.Lastname))
             {
-                updateUser.Firstname = user.Lastname;
+                updateUser.Lastname = user.Lastname;
             }
 
             if (!string.IsNullOrWhiteSpace(password))
