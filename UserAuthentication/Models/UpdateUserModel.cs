@@ -1,6 +1,6 @@
 ﻿namespace UserAuthentication.Models
 {
-    public class UpdateModel
+    public class UpdateUserModel
     {
         public string Username { get; set; }
         public string Password { get; set; }

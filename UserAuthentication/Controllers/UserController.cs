@@ -143,7 +143,7 @@ namespace UserAuthentication.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Put(int id, [FromBody] UpdateModel model)
+        public IActionResult Put(int id, [FromBody] UpdateUserModel model)
         {
             var user = _mapper.Map<User>(model);
             user.UserId = id;

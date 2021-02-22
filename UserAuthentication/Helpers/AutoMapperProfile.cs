@@ -10,7 +10,7 @@ namespace UserAuthentication.Helpers
         {
             CreateMap<User, UserModel>();
             CreateMap<RegistrationModel, User>();
-            CreateMap<UpdateModel, User>();
+            CreateMap<UpdateUserModel, User>();
         }
     }
 }
